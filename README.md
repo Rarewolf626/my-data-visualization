@@ -1,3 +1,7 @@
+![My Data Logo](./src/assets/logo.png)
+![Project stack](./src/assets/techstack.png)
+
+
 # My Data
 
 Description: My Data is a React desktop application that uses Electron. It is designed to allow users to view their data usage on a computer. This project was developed for the 2023 Inatel's Hackathon.
