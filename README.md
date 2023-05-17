@@ -36,9 +36,10 @@ To install and run the My Data application locally, follow these steps:
 ## Usage
 
 To start the My Data application, use the following command:
-
+    
     npm start
 
+In order to launch npm start, you'll need to generate a build of the react application. If you want to simulate only the react application, without electron, simply run 'npm run dev'. This will automatically start the application as a simple vite application.
 
 The application will launch, and you will be able to observe data usage on your computer.
 
