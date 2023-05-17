@@ -28,6 +28,7 @@ const createWindow = () => {
     const stringFromBuffer = String.fromCharCode.apply(null, dataArray);
 
     const jsonFromString = JSON.parse(stringFromBuffer);
+    console.log(jsonFromString)
   });
 
   //TODO: launch build vite before npm start
