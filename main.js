@@ -17,8 +17,21 @@ const createWindow = () => {
   });
 
   client.on('data', (data) => {
-    console.log(data.toString())
+    const bufferArray = data.toJSON().data;
+    
+    //98 is the ASCII code for the letter b (the data object starts with the letter b)
+    const arrayFirstIndex = bufferArray.indexOf(98);
+    //39 is index of single comma (last index of the json we want)
+    const arrayLastIndex =  bufferArray.lastIndexOf(39)
+
+    const dataArray = bufferArray.slice(arrayFirstIndex + 2, arrayLastIndex); 
+    const stringFromBuffer = String.fromCharCode.apply(null, dataArray);
+
+    const jsonFromString = JSON.parse(stringFromBuffer);
   });
+
+  //TODO: launch build vite before npm start
+  //TODO: figure out a way to launch the python file
 
   win.loadFile(path.join(__dirname, 'dist', 'index.html'))
 }
