@@ -1,12 +1,14 @@
+//TODO: launch build vite before npm start
 const { app, BrowserWindow } = require('electron');
 const net = require('net');
-const cp = require('child_process')
-let isExecuting = false;
+const cp = require('child_process');
+const fs = require('fs');
+const path = require('path');
 
-cp.exec('cd ./src/connection && pm2 start traffic_analyzer.py')
+const pythonScriptPath = path.join(__dirname, 'src', 'connection')
 
-const path = require('path')
-console.log(__dirname)
+cp.exec(`cd ${pythonScriptPath} && pm2 start traffic_analyzer.py`)
+
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 800,
@@ -34,17 +36,18 @@ const createWindow = () => {
       const stringFromBuffer = String.fromCharCode.apply(null, dataArray);
   
       const jsonFromString = JSON.parse(stringFromBuffer);
+      fs.appendFile(path.join(__dirname, 'test.txt'), "Hey there!\n", function(err) {
+        if(err) {
+            return console.log(err);
+        }
+        console.log("The file was saved!");
+    }); 
       console.log(jsonFromString)
     });  
 
-    isExecuting = true;
   }, 5000) //Application needs this delay in order to python execute
 
-  if(isExecuting){
-  }
-  
-  //TODO: launch build vite before npm start
-  //TODO: figure out a way to launch the python file
+
 
   win.loadFile(path.join(__dirname, 'dist', 'index.html'))
 }
