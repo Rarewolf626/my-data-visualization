@@ -5,6 +5,7 @@ const cp = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const bufferTreatment = require('./backend/utils/bufferTreatment')
+const applicationController = require('./backend/controllers/applicationController')
 
 const unpolishedDataPath = path.join(__dirname, 'volatile', 'unpolishedData.json');
 const trafficAnalyzerScriptPath = path.join(__dirname, 'src', 'connection')
@@ -27,51 +28,11 @@ const createWindow = () => {
 
     client.on('data', (data) => {
       const json = JSON.stringify(bufferTreatment.getJsonFromAnalyzer(data));
-      const result = bufferTreatment.addAnotherJsonInput(unpolishedDataPath, json)
+      const result = bufferTreatment.addAnotherJsonInput(unpolishedDataPath, json);
+      applicationController.findHighestConsuming(unpolishedDataPath)
+      
       console.log('resultado >>>>')
       console.log(result)
-
-      let rawdata = fs.readFileSync(unpolishedDataPath, () => { console.log('leu') })
-
-      console.log('raw >>>' + rawdata)
-
-      let person = JSON.parse(rawdata)
-      const lastRegister = person[person.length - 1]
-
-      console.log(lastRegister)
-
-      const applications = Object.values(lastRegister)
-      console.log(applications.length)
-
-      const values = [];
-      for (let i = 0; i < applications.length; i++) {
-        console.log('Application >>>>>>')
-        console.log(applications[i])
-
-
-        let download = applications[i].download.slice(0, applications[i].download.indexOf('.') + 2);
-
-
-        let parsedDownload = Number(download)
-
-        values.push(parsedDownload)
-        console.log(parsedDownload)
-        console.log(download)
-
-      }
-      console.log(values)
-
-      console.log(Math.max(...values))
-      const max = Math.max(...values)
-      console.log("Consumindo mais >>>>>>")
-      if (applications[values.indexOf(max)] != undefined)
-        console.log(applications[values.indexOf(max)].name)
-
-      //console.log(applications[0])
-
-
-
-
 
 
     });
