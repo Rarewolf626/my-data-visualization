@@ -36,12 +36,28 @@ const createWindow = () => {
       const stringFromBuffer = String.fromCharCode.apply(null, dataArray);
   
       const jsonFromString = JSON.parse(stringFromBuffer);
-      fs.appendFile(path.join(__dirname, 'test.txt'), "Hey there!\n", function(err) {
-        if(err) {
-            return console.log(err);
+
+      const unpolishedDataPath = path.join(__dirname, 'volatile', 'unpolishedData.json');
+      
+      fs.readFile(unpolishedDataPath, 'utf8', function (err,data) {
+        if (err) {
+          return console.log(err);
         }
-        console.log("The file was saved!");
-    }); 
+        var result = data.replace(']', ',');
+        console.log("Reading")
+
+        fs.writeFile(unpolishedDataPath, result, 'utf8', function (err) {
+          console.log("Exchanging")
+          if (err) return console.log(err);
+          fs.appendFile(unpolishedDataPath, `${stringFromBuffer}]\n`, function(err) {
+            if(err) {
+                return console.log(err);
+            }
+            console.log("New info");
+        }); 
+        });
+      });
+
       console.log(jsonFromString)
     });  
 

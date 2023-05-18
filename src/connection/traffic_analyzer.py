@@ -21,7 +21,7 @@ SOCKET_TIMEOUT = 5
 # Atraso padrão (em segundos) para envio de informação 
 # Esse atraso é compartilhado entre todas as funções que enviam informações via comunicação por socket
 # Ele NÃO afeta a taxa de captura de pacotes do Scapy 
-INFO_DELAY = 1
+INFO_DELAY = 5
 
 # Variável que armazena todas as interfaces de rede disponíveis
 all_macs = set()
