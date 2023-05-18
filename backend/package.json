@@ -1,0 +1,14 @@
+{
+  "name": "mydata-api",
+  "version": "0.1.0",
+  "description": "Api side of the project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Julio Juriolli",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

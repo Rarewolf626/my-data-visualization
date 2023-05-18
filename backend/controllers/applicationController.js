@@ -38,5 +38,4 @@ function findHighestConsuming(filePath){
 
 module.exports = {
     findHighestConsuming,
-
 }
