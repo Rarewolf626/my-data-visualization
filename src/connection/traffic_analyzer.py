@@ -194,6 +194,7 @@ def encode_traffic_by_process():
             continue
         # Get the name of the process, such as chrome.exe, etc.
         name = p.name()
+        path = p.exe()
         # Get the time the process was spawned
         try:
             create_time = datetime.fromtimestamp(p.create_time())
@@ -202,7 +203,7 @@ def encode_traffic_by_process():
             create_time = datetime.fromtimestamp(psutil.boot_time())
         # Construct our dictionary that stores process info
         process = {
-            "pid": pid, "name": name, "create_Time": create_time.strftime("%d/%m/%Y, %H:%M:%S"), "last_time_updated": datetime.now().strftime("%d/%m/%Y, %H:%M:%S"),
+            "pid": pid, "name": name, "path": path, "create_Time": create_time.strftime("%d/%m/%Y, %H:%M:%S"), "last_time_updated": datetime.now().strftime("%d/%m/%Y, %H:%M:%S"),
             "upload": traffic[0], "download": traffic[1],
         }
         try:

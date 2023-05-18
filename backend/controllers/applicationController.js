@@ -1,6 +1,14 @@
 const fs = require('fs');
 const path = require('path')
 const bufferTreatment = require('../utils/bufferTreatment')
+var iconExtractor = require('icon-extractor');
+let gbImg;
+
+iconExtractor.emitter.on('icon', function(data){
+    gbImg = data.Base64ImageData;
+    console.log("Type!!!")
+    console.log(typeof(gbImg))
+  });
 
 const findHighestConsuming = async (req, res) => {
     console.log("DIRNAME >>>>" )
@@ -37,10 +45,18 @@ const findHighestConsuming = async (req, res) => {
     if (consumingDataApplications[maxValueIndex] != undefined){
         maxValue = consumingDataApplications[maxValueIndex]
         console.log(maxValue)
+        console.log(maxValue.path)
+        console.log("ICON >>>>>> ")
+        iconExtractor.getIcon(maxValue.name, maxValue.path);
+        res.status(200).json({name: maxValue.name, download: maxValue.download, img: gbImg}) 
+    }else{
+        console.log("Undefined, carregando...")
+        res.status(200).json({name: 'Carregando', download: '...'}) 
     }
-    res.status(200).json({name: maxValue.name, download: maxValue.download}) 
 }
 
+
+  
 module.exports = {
     findHighestConsuming,
 }
