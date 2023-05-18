@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "start": "sudo python3 src/connection/traffic_analyzer.py & electron-forge start",
     "package": "electron-forge package",
-    "start:windows": "pm2 start src/connection/traffic_analyzer.py && electron-forge start",
+    "start:windows": "electron-forge start",
     "make": "electron-forge make"
   },
   "author": "Julio Juriolli",
