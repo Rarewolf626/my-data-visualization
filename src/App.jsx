@@ -11,8 +11,9 @@ function App() {
   async function call(){
     await Api.findHighestConsuming().then(
       (result) => {
-        console.log(result)
-        setCount(result.data.data) 
+        console.log(result.data.name)
+        console.log(result.data.download)
+        setCount(result.data.name + result.data.download) 
       }
     )
   }

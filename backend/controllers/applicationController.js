@@ -1,5 +1,7 @@
 const fs = require('fs');
 const path = require('path')
+const bufferTreatment = require('../utils/bufferTreatment')
+
 const findHighestConsuming = async (req, res) => {
     console.log("DIRNAME >>>>" )
     const filePath = path.join(__dirname, '..', '..', 'volatile', 'unpolishedData.json')
@@ -18,10 +20,10 @@ const findHighestConsuming = async (req, res) => {
       console.log(consumingDataApplications[i])
 
 
-      let currentApplicationDownload = consumingDataApplications[i].download.slice(0, consumingDataApplications[i].download.indexOf('.') + 2);
+      const currentApplicationDownload = consumingDataApplications[i].download
+      const applicationDownloadInBytes = bufferTreatment.convertToBytes(currentApplicationDownload)
 
-
-      let parsedCurrentApplicationDownload = Number(currentApplicationDownload)
+      let parsedCurrentApplicationDownload = Number(applicationDownloadInBytes)
 
       values.push(parsedCurrentApplicationDownload)
       console.log(parsedCurrentApplicationDownload)
@@ -31,12 +33,12 @@ const findHighestConsuming = async (req, res) => {
     console.log(Math.max(...values))
     const max = Math.max(...values)
     const maxValueIndex = values.indexOf(max);
-    let maxValueName;
+    let maxValue;
     if (consumingDataApplications[maxValueIndex] != undefined){
-        maxValueName = consumingDataApplications[maxValueIndex].name
-        console.log(maxValueName)
+        maxValue = consumingDataApplications[maxValueIndex]
+        console.log(maxValue)
     }
-    res.status(200).json({data: maxValueName}) 
+    res.status(200).json({name: maxValue.name, download: maxValue.download}) 
 }
 
 module.exports = {

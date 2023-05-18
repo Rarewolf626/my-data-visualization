@@ -41,8 +41,37 @@ function addAnotherJsonInput(filePath, json){
       });
 }
 
+function convertToBytes(fileSize) {
+  const units = {
+    B: 1,
+    KB: 1024,
+    MB: 1024 * 1024,
+    GB: 1024 * 1024 * 1024,
+    TB: 1024 * 1024 * 1024 * 1024,
+  };
+
+  const regex = /^(\d+(\.\d+)?)\s*(B|KB|MB|GB|TB)$/i;
+  const matches = fileSize.match(regex);
+
+  if (!matches) {
+    console.log('Invalid file size format');
+    return;
+  }
+
+  const size = parseFloat(matches[1]);
+  const unit = matches[3].toUpperCase();
+
+  if (!units.hasOwnProperty(unit)) {
+    console.log('Invalid unit');
+    return;
+  }
+
+  const bytes = size * units[unit];
+  return bytes;
+}
 
 module.exports ={
     getJsonFromAnalyzer,
-    addAnotherJsonInput
+    addAnotherJsonInput,
+    convertToBytes
 }
