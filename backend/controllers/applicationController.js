@@ -1,7 +1,8 @@
 const fs = require('fs');
-
-function findHighestConsuming(filePath){
-    
+const path = require('path')
+const findHighestConsuming = async (req, res) => {
+    console.log("DIRNAME >>>>" )
+    const filePath = path.join(__dirname, '..', '..', 'volatile', 'unpolishedData.json')
     const readJson = fs.readFileSync(filePath, () => { console.log('leu') })
     const json = JSON.parse(readJson)
     const mostRecentJsonRegister = json[json.length - 1]
@@ -30,10 +31,12 @@ function findHighestConsuming(filePath){
     console.log(Math.max(...values))
     const max = Math.max(...values)
     const maxValueIndex = values.indexOf(max);
-    console.log("Consumindo mais >>>>>>")
+    let maxValueName;
     if (consumingDataApplications[maxValueIndex] != undefined){
-        console.log(consumingDataApplications[maxValueIndex].name)
+        maxValueName = consumingDataApplications[maxValueIndex].name
+        console.log(maxValueName)
     }
+    res.status(200).json({data: maxValueName}) 
 }
 
 module.exports = {

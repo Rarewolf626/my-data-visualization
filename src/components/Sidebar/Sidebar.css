@@ -91,6 +91,7 @@
      margin-bottom: auto;
      transition: all 1s;
      white-space: nowrap;
+     color: black;
 }
 
 .sidebar-item-text-collapsed{
