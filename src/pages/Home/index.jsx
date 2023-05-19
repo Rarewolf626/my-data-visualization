@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import './style.css';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Api from '../../services/api';
+import {
+    FaArrowUp,
+    FaUpload,
+    FaDownload
+} from 'react-icons/fa'
 
 const HomePage = () => {
     function refreshPage() {
@@ -16,13 +21,13 @@ const HomePage = () => {
             applicationDownload: '{...}'
         },
         {
-            label: 'Total utilizado hoje',
+            label: 'Total Upload no momento',
             image: undefined,
             applicationLabel: 'Carregando',
             applicationDownload: '{...}'
         },
         {
-            label: 'Total utilizado agora',
+            label: 'Total de Download no momento',
             image: undefined,
             applicationLabel: 'Carregando',
             applicationDownload: '{...}'
@@ -37,6 +42,15 @@ const HomePage = () => {
             highestConsumingApplicationData[0].image = result.data.img
             setTopSection(highestConsumingApplicationData)
         });
+
+        await Api.getDownloadSum().then((result) => {
+            console.log("Resultado!!!!!!!!!!!!!!!")
+            console.log(result.data)
+            let downloadSum = topSection.slice()
+            downloadSum[2].applicationDownload = result.data.download.toString();
+            downloadSum[2].applicationDownload = downloadSum[2].applicationDownload.concat('B')
+            setTopSection(downloadSum) 
+        })
     };
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -54,14 +68,35 @@ const HomePage = () => {
         <div className="homepage">
             <Sidebar />
             <div className="top-grid">
-                {topSection.map((square, index) => (
-                    <div key={index} className="square">
-                        <img src={`data:image/png;base64,${square.image}`} alt={square.label} />
-                        <label className='label'>{square.label}</label>
-                        <div className='application-label'>{square.applicationLabel}</div>
-                        <label className='application-download'>{square.applicationDownload}</label>
-                    </div>
-                ))}
+                {topSection.map((square, index) => {
+                if(index == 0){
+                    return(
+                        <div key={index} className="square">
+                            <img src={`data:image/png;base64,${square.image}`} alt={square.label} />
+                            <label className='label'>{square.label}</label>
+                            <div className='application-label'>{square.applicationLabel}</div>
+                            <label className='application-download'>{square.applicationDownload}</label>
+                        </div>
+                    )
+                }
+                else if(index == 2){
+                    return(
+                        <div key={index} className="square">
+                            <FaDownload size={50}/>
+                            <label className='label'>{square.label}</label>
+                            <div className='application-label'>{square.applicationLabel}</div>
+                            <label className='application-download'>{square.applicationDownload}</label>
+                        </div>)
+                }
+                else if(index == 1){
+                    return(
+                        <div key={index} className="square">
+                            <FaUpload size={50}/>
+                            <label className='label'>{square.label}</label>
+                            <div className='application-label'>{square.applicationLabel}</div>
+                            <label className='application-download'>{square.applicationDownload}</label>
+                        </div>)
+                }})}
             </div>
         </div>
     );

@@ -18,4 +18,22 @@ export default class Api{
                return err
           }
      }
+
+     
+     static async getDownloadSum(){
+          try{
+               const res = await axios.get(
+                    `${api}api/application/getDownloadSum`,
+                    {
+                         headers: {
+                              "Access-Control-Allow-Origin": "*",
+                              'Content-Security-Policy': ['default-src \'none\'', 'connect-src \'self\'']
+                         }
+                    }
+               )
+               return res
+          } catch(err){
+               return err
+          }
+     }
 }
