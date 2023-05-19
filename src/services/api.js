@@ -36,4 +36,21 @@ export default class Api{
                return err
           }
      }
+
+     static async getUploadSum(){
+          try{
+               const res = await axios.get(
+                    `${api}api/application/getUploadSum`,
+                    {
+                         headers: {
+                              "Access-Control-Allow-Origin": "*",
+                              'Content-Security-Policy': ['default-src \'none\'', 'connect-src \'self\'']
+                         }
+                    }
+               )
+               return res
+          } catch(err){
+               return err
+          }
+     }
 }

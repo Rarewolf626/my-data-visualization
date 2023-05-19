@@ -51,6 +51,17 @@ const HomePage = () => {
             downloadSum[2].applicationDownload = downloadSum[2].applicationDownload.concat('B')
             setTopSection(downloadSum) 
         })
+
+        
+        await Api.getUploadSum().then((result) => {
+            console.log("Resultado upload >>>>>>>>>>>.")
+            console.log(result.data)
+            let uploadSum = topSection.slice()
+            console.log(result.data)
+            uploadSum[1].applicationDownload = result.data.upload.toString();
+            uploadSum[1].applicationDownload = uploadSum[1].applicationDownload.concat('B')
+            setTopSection(uploadSum) 
+        })
     };
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -72,7 +83,13 @@ const HomePage = () => {
                 if(index == 0){
                     return(
                         <div key={index} className="square">
+                            {
+                                square.image != undefined ? 
+                                
                             <img src={`data:image/png;base64,${square.image}`} alt={square.label} />
+                            :
+                            <div className='loading'> </div>
+                            }
                             <label className='label'>{square.label}</label>
                             <div className='application-label'>{square.applicationLabel}</div>
                             <label className='application-download'>{square.applicationDownload}</label>

@@ -98,5 +98,6 @@ const getUploadSum = async (req, res) => {
   
 module.exports = {
     findHighestConsuming,
-    getDownloadSum
+    getDownloadSum,
+    getUploadSum
 }
