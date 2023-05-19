@@ -24,19 +24,9 @@ class Sidebar extends Component {
                 icon: <FaHome className='sidebar-item-icon' color='#0048a7' />
             },
             {
-                path: "/createschedule",
+                path: "/reports",
                 name: "Relatórios",
                 icon: <TbDeviceAnalytics className='sidebar-item-icon' color='#0048a7' />
-            },
-            {
-                path: "/myschedules",
-                name: "Principais gastos",
-                icon: <MdLeaderboard className='sidebar-item-icon' color='#0048a7' />
-            },
-            {
-                path: "/",
-                name: "Sair",
-                icon: <FaSignOutAlt className='sidebar-item-icon' color='#0048a7' />
             }
         ];
 

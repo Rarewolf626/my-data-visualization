@@ -1,7 +1,7 @@
 {
   "name": "my-data",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "This is the project for the 2023 Inatel's Hackathon. My Data is intended to observe data usage",
   "main": "main.js",
   "scripts": {

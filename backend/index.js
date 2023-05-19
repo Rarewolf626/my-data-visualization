@@ -20,4 +20,4 @@ app.use('/api/application', applicationRoutes);
 
 const PORT = 3000
 
-app.listen(PORT, () => console.log(`Server launched, port ${PORT}`))
+app.listen(PORT, () => console.log(`[api] Api launched, port ${PORT}`))
