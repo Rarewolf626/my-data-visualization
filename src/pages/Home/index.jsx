@@ -57,8 +57,6 @@ const HomePage = () => {
         });
 
         await Api.getDownloadSum().then((result) => {
-            console.log("Resultado!!!!!!!!!!!!!!!")
-            console.log(result.data)
             let downloadSum = topSection.slice()
             downloadSum[2].applicationDownload = result.data.download.toString();
             downloadSum[2].applicationDownload = convertToInternationalSystem(downloadSum[2].applicationDownload)
@@ -67,10 +65,7 @@ const HomePage = () => {
 
         
         await Api.getUploadSum().then((result) => {
-            console.log("Resultado upload >>>>>>>>>>>.")
-            console.log(result.data)
             let uploadSum = topSection.slice()
-            console.log(result.data)
             uploadSum[1].applicationDownload = result.data.upload.toString();
             uploadSum[1].applicationDownload = convertToInternationalSystem(uploadSum[1].applicationDownload)
             setTopSection(uploadSum) 
@@ -79,7 +74,6 @@ const HomePage = () => {
     useEffect(() => {
         const intervalId = setInterval(() => {
             fetchData();
-            console.log("Fetchdata")
         }, 2000); // Call fetchData every second (1000 milliseconds)
 
         

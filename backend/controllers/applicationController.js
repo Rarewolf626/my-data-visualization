@@ -10,36 +10,26 @@ const filePath = path.join(__dirname, '..', '..', 'volatile', 'unpolishedData.js
 
 iconExtractor.emitter.on('icon', function(data){
     gbImg = data.Base64ImageData;
-    console.log("Type!!!")
-    console.log(typeof(gbImg))
   });
 
 const findHighestConsuming = async (req, res) => {
-    const readJson = fs.readFileSync(filePath, () => { console.log('leu') })
+    const readJson = fs.readFileSync(filePath, () => { console.log('read') })
     const json = JSON.parse(readJson)
     const mostRecentJsonRegister = json[json.length - 1]
 
-    console.log(mostRecentJsonRegister)
-
     const consumingDataApplications = Object.values(mostRecentJsonRegister)
-    console.log(consumingDataApplications.length)
 
     const values = [];
     for (let i = 0; i < consumingDataApplications.length; i++) {
-      console.log(consumingDataApplications[i])
-
-
+  
       const currentApplicationDownload = consumingDataApplications[i].download
       const applicationDownloadInBytes = bufferTreatment.convertToBytes(currentApplicationDownload)
 
       let parsedCurrentApplicationDownload = Number(applicationDownloadInBytes)
 
       values.push(parsedCurrentApplicationDownload)
-      console.log(parsedCurrentApplicationDownload)
 
     }
-    console.log(values)
-    console.log(Math.max(...values))
     const max = Math.max(...values)
     const maxValueIndex = values.indexOf(max);
     let maxValue;
@@ -53,7 +43,7 @@ const findHighestConsuming = async (req, res) => {
 }
 
 const getDownloadSum = async (req, res) => {
-    const readJson = fs.readFileSync(filePath, () => { console.log('leu') })
+    const readJson = fs.readFileSync(filePath, () => { console.log('read') })
     const json = JSON.parse(readJson)
     const mostRecentJsonRegister = json[json.length - 1]
     let downloadSum = 0;
@@ -74,7 +64,7 @@ const getDownloadSum = async (req, res) => {
 }
 
 const getUploadSum = async (req, res) => {
-    const readJson = fs.readFileSync(filePath, () => { console.log('leu') })
+    const readJson = fs.readFileSync(filePath, () => { console.log('read') })
     const json = JSON.parse(readJson)
     const mostRecentJsonRegister = json[json.length - 1]
     let uploadSum = 0;

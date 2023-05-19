@@ -13,8 +13,6 @@ function getJsonFromAnalyzer(data){
     const stringFromBuffer = String.fromCharCode.apply(null, dataArray);
     const jsonFromString = JSON.parse(stringFromBuffer);
 
-    console.log('jsonfromstring <<')
-    console.log(jsonFromString)
     return jsonFromString;
 }
 
@@ -24,16 +22,16 @@ function addAnotherJsonInput(filePath, json){
           return console.log(err);
         }
         let objectWithBracketsRemoved = data.replace(']', ',');
-        console.log("1. Reading")
+        console.log("[api] Reading unpolished json")
 
         fs.writeFile(filePath, objectWithBracketsRemoved, 'utf8', function (err) {
-          console.log("2. Exchanging")
+          console.log("[api] Exchanging unpolished json")
           if (err) return console.log(err);
           fs.appendFile(filePath, `${json}]\n`, function (err) {
             if (err) {
               return console.log(err);
             }else{
-                console.log("3. New info");
+                console.log("[api] Adding info to unpolished json");
                 return true
             }
           });
@@ -54,7 +52,7 @@ function convertToBytes(fileSize) {
   const matches = fileSize.match(regex);
 
   if (!matches) {
-    console.log('Invalid file size format');
+    console.log('[api] Invalid file size format');
     return;
   }
 
@@ -62,7 +60,7 @@ function convertToBytes(fileSize) {
   const unit = matches[3].toUpperCase();
 
   if (!units.hasOwnProperty(unit)) {
-    console.log('Invalid unit');
+    console.log('[api] Invalid unit');
     return;
   }
 

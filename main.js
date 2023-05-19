@@ -27,7 +27,7 @@ const createWindow = () => {
     shell.exec(`cd ${backendScriptPath} && pm2 start index.js`)
 
     const client = net.connect(50000, '127.0.0.1', () => {
-      console.log('Connected to server');
+      console.log('[electron] Connected to traffic analyzer');
     });
 
     client.on('data', (data) => {
@@ -50,8 +50,3 @@ app.whenReady().then(() => {
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
 })
-
-
-
-
-console.log("Hello World")
