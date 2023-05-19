@@ -12,6 +12,19 @@ const HomePage = () => {
     function refreshPage() {
         window.location.reload(false);
     }
+    
+    function convertToInternationalSystem(number) {
+        const units = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+        let index = 0;
+        let value = number;
+      
+        while (value >= 1024 && index < units.length - 1) {
+          value /= 1024;
+          index++;
+        }
+      
+        return value.toFixed(2) + " " + units[index];
+    }
 
     const [topSection, setTopSection] = useState([
         {
@@ -48,7 +61,7 @@ const HomePage = () => {
             console.log(result.data)
             let downloadSum = topSection.slice()
             downloadSum[2].applicationDownload = result.data.download.toString();
-            downloadSum[2].applicationDownload = downloadSum[2].applicationDownload.concat('B')
+            downloadSum[2].applicationDownload = convertToInternationalSystem(downloadSum[2].applicationDownload)
             setTopSection(downloadSum) 
         })
 
@@ -59,7 +72,7 @@ const HomePage = () => {
             let uploadSum = topSection.slice()
             console.log(result.data)
             uploadSum[1].applicationDownload = result.data.upload.toString();
-            uploadSum[1].applicationDownload = uploadSum[1].applicationDownload.concat('B')
+            uploadSum[1].applicationDownload = convertToInternationalSystem(uploadSum[1].applicationDownload)
             setTopSection(uploadSum) 
         })
     };
