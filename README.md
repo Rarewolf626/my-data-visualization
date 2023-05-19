@@ -4,7 +4,7 @@
 
 # My Data
 
-Description: My Data is a React desktop application that uses Electron. It is designed to allow users to view their data usage on a computer. This project was developed for the 2023 Inatel's Hackathon.
+Description: My Data is an Electron/React application intended to allow users to view their data usage on their computer. My Data gives user the best usability when viewing their data, without unecessary information. This project was developed for the 2023 Inatel's Hackathon.
 
 ## Installation
 ### Pre-requisites: 
@@ -23,24 +23,46 @@ To install and run the My Data application locally, follow these steps:
 
         cd my-data
 
-3. Install the node dependencies:
+3. Install the node dependencies inside main application and backend
 
+       npm install
+       cd backend
        npm install
 
 4. Install python dependencies:
         
-        cd src/connection
+        cd ../src/connection
         pip install -r requirements.txt
 
 
 ## Usage
 
-To start the My Data application, use the following command:
+To start the My Data application on Windows, use the following command:
     
-    npm start
+    npm run start:windows
 
-In order to launch npm start, you'll need to generate a build of the react application. If you want to simulate only the react application, without electron, simply run 'npm run dev'. This will automatically start the application as a simple vite application.
+This will automatically build the React application and start the Electron run script.
 
-The application will launch, and you will be able to observe data usage on your computer.
+If you want to simulate only the react application, without electron, simply run 'npm run dev'. This will automatically start the application as a simple vite project.
+
+## Easier Development
+
+In order to develop this project more efficiently, you can launch the main three applications separately.
+
+1. Navigate to the root folder and execute
+
+        npm run dev
+
+2. Go inside src/connection and:
+
+        pm2 start traffic_analyzer.py
+
+3. Go to the backend folder and start the api
+
+        pm2 start index.js
+
+        or
+
+        nodemon index.js
 
 
