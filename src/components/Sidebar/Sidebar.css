@@ -1,0 +1,104 @@
+*{
+}
+
+.sidebar-wrapper{
+     width: 200px;
+     position: fixed;
+     border-right: solid 0.5px rgb(224, 224, 224);
+     background-color: #1C3D86;
+     height: 100%;
+     z-index: 1000;
+     transition: all 0.5s;
+     border-right-width: 3px;
+     border-right-color: #3e6bcd;
+     border-right-style: solid;
+}
+
+.sidebar-wrapper-collapsed{
+     width: 100px;
+     transition: all 0.5s;
+}
+
+.collapse-btn{
+     height: 30px;
+     width: 30px;
+     position: absolute;
+     right: -15px;
+     border-radius: 10px;
+     border-width: 0.1px;
+     top: 10px;
+     cursor: pointer;
+     background-color: white;
+     transition: all 0.5s;
+}
+
+.collapse-btn:hover{
+     background-color: #d5e7fe;
+     transition: all 0.5s;
+}
+
+
+.collapse-btn-icon{
+     display: flex;
+     margin: auto;
+}
+
+.header-wrapper{
+     height: 20vh;
+}
+
+.logo-check-sign{
+     width: 100px;
+     display: flex;
+     margin: 0 auto;
+     position: relative;
+     top: 10px;
+     transition: all 0.5s;
+     margin-top: 10px;
+}
+
+
+.sidebar-item-wrapper{
+     flex-direction: row;
+     display: flex;
+     background-color: rgb(239, 239, 239);
+     padding: 10px;
+     border-radius: 10px;
+     margin-top: 10px;
+     margin-left: 10px;
+     margin-right: 10px;
+     cursor: pointer;
+     transition: all 0.1s;
+}
+
+.sidebar-item-wrapper:hover{
+     background-color: rgb(220, 220, 220);
+     transition: all 0.1s;
+}
+
+.sidebar-item-icon{
+     height: 35px;
+     width: 35px;
+     display: flex;
+     margin-left: 13%;
+}
+
+.sidebar-item-text{
+     margin-left: 20px;
+     margin-right: auto;
+     font-size: 0.7rem;
+     margin-top: auto;
+     margin-bottom: auto;
+     transition: all 1s;
+     white-space: nowrap;
+     color: black;
+}
+
+.sidebar-item-text-collapsed{
+     opacity: 0;
+     transition: all 0.3s;
+}
+
+main{
+     margin-top: 10vh;
+}

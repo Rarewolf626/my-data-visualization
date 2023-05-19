@@ -1,38 +1,44 @@
+//TODO: launch build vite before npm start
 const { app, BrowserWindow } = require('electron');
 const net = require('net');
+const shell = require('child_process');
+const fs = require('fs');
+const path = require('path');
+const bufferTreatment = require('./backend/utils/bufferTreatment')
+const applicationController = require('./backend/controllers/applicationController')
 
-const path = require('path')
-console.log(__dirname)
+const unpolishedDataPath = path.join(__dirname, 'volatile', 'unpolishedData.json');
+const trafficAnalyzerScriptPath = path.join(__dirname, 'src', 'connection')
+const backendScriptPath = path.join(__dirname, 'backend')
+
+shell.exec(`cd ${trafficAnalyzerScriptPath} && pm2 start traffic_analyzer.py`)
+
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js'),
+      webSecurity: false,
     }
   })
 
-  const client = net.connect(50000, '127.0.0.1', () => {
-    console.log('Connected to server');
-  });
+  setTimeout(() => {
+    shell.exec(`cd ${backendScriptPath} && pm2 start index.js`)
 
-  client.on('data', (data) => {
-    const bufferArray = data.toJSON().data;
-    
-    //98 is the ASCII code for the letter b (the data object starts with the letter b)
-    const arrayFirstIndex = bufferArray.indexOf(98);
-    //39 is index of single comma (last index of the json we want)
-    const arrayLastIndex =  bufferArray.lastIndexOf(39)
+    const client = net.connect(50000, '127.0.0.1', () => {
+      console.log('Connected to server');
+    });
 
-    const dataArray = bufferArray.slice(arrayFirstIndex + 2, arrayLastIndex); 
-    const stringFromBuffer = String.fromCharCode.apply(null, dataArray);
+    client.on('data', (data) => {
+      const json = JSON.stringify(bufferTreatment.getJsonFromAnalyzer(data));
+      const result = bufferTreatment.addAnotherJsonInput(unpolishedDataPath, json);
+      //applicationController.findHighestConsuming(unpolishedDataPath)
+    });
 
-    const jsonFromString = JSON.parse(stringFromBuffer);
-    console.log(jsonFromString)
-  });
+  }, 5000) //Application needs this delay in order to python execute
 
-  //TODO: launch build vite before npm start
-  //TODO: figure out a way to launch the python file
+
 
   win.loadFile(path.join(__dirname, 'dist', 'index.html'))
 }
