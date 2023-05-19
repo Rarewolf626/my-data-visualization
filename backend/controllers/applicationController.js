@@ -84,10 +84,39 @@ const getUploadSum = async (req, res) => {
     }
 }
 
+const getAllApplications = async (req, res) => {
+    const readJson = fs.readFileSync(filePath, () => { console.log('read') })
+    const json = JSON.parse(readJson)
+    const mostRecentJsonRegister = json[json.length - 1]
+    let consumingDataApplications = Object.values(mostRecentJsonRegister)
+
+    for (let i = 0; i < consumingDataApplications.length; i++) {
+      const currentApplicationDownload = consumingDataApplications[i].download
+      const applicationDownloadInBytes = Number(bufferTreatment.convertToBytes(currentApplicationDownload))
+      consumingDataApplications[i].download = applicationDownloadInBytes;
+    }
+
+    const sortedArray = consumingDataApplications.sort((a, b) => {
+        const downloadA = parseFloat(a.download.match(/[0-9.]+/)[0]);
+        const downloadB = parseFloat(b.download.match(/[0-9.]+/)[0]);
+        return downloadA - downloadB;
+      });
+
+    if (sortedArray[0].download != undefined){
+        //iconExtractor.getIcon(maxValue.name, maxValue.path);
+        res.status(200).json({sortedApplications: sortedArray}) 
+    }else{
+        res.status(200).json({name: 'Carregando', download: '...'}) 
+    }
+}
+
+
+
 
   
 module.exports = {
     findHighestConsuming,
     getDownloadSum,
-    getUploadSum
+    getUploadSum,
+    getAllApplications
 }
