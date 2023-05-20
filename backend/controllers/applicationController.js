@@ -5,11 +5,20 @@ const path = require('path')
 const bufferTreatment = require('../utils/bufferTreatment')
 var iconExtractor = require('icon-extractor');
 let gbImg;
-
+let images = []
+let readingImages = false;
 const filePath = path.join(__dirname, '..', '..', 'volatile', 'unpolishedData.json')
 
 iconExtractor.emitter.on('icon', function(data){
-    gbImg = data.Base64ImageData;
+    if(data.Context == 'images'){
+        if(!images.includes(data.Base64ImageData)){
+            images.push(data.Base64ImageData)
+        }
+        console.log(images.length)
+    }else{
+        gbImg = data.Base64ImageData;
+
+    }
   });
 
 const findHighestConsuming = async (req, res) => {
@@ -84,10 +93,50 @@ const getUploadSum = async (req, res) => {
     }
 }
 
+const getAllApplications = async (req, res) => {
+    const readJson = fs.readFileSync(filePath, () => { console.log('read') })
+    const json = JSON.parse(readJson)
+    const mostRecentJsonRegister = json[json.length - 1]
+    let consumingDataApplications = Object.values(mostRecentJsonRegister)
+    readingImages = true;
+    for (let i = 0; i < consumingDataApplications.length; i++) {
+        console.log('line 94')
+      const currentApplicationDownload = consumingDataApplications[i].download
+      const applicationDownloadInBytes = Number(bufferTreatment.convertToBytes(currentApplicationDownload))
+      console.log(">>>>>> Line 97")
+      consumingDataApplications[i].download = applicationDownloadInBytes;
+      console.log(consumingDataApplications[i].path)
+      iconExtractor.getIcon('images', consumingDataApplications[i].path);
+      consumingDataApplications[i].image = images[i]
+    }
+    readingImages = false;
+    console.log("Imges length >>>>>>")
+    console.log(images.length)
+    console.log(images)
+    const applicationImages = images;
+    images = []
+    const sortedArray = consumingDataApplications.sort((a, b) => {
+        console.log(">>>> line 102")
+            const downloadA = parseFloat(a.download.toString().match(/[0-9.]+/)[0]);
+            const downloadB = parseFloat(b.download.toString().match(/[0-9.]+/)[0]);
+            return downloadA - downloadB;
+      });
+console.log('>>>> line 107')
+    if (sortedArray[0] != undefined){
+        //iconExtractor.getIcon(maxValue.name, maxValue.path);
+        res.status(200).json({sortedApplications: sortedArray}) 
+    }else{
+        res.status(200).json({name: 'Carregando', download: '...'}) 
+    }
+}
+
+
+
 
   
 module.exports = {
     findHighestConsuming,
     getDownloadSum,
-    getUploadSum
+    getUploadSum,
+    getAllApplications
 }

@@ -53,4 +53,21 @@ export default class Api{
                return err
           }
      }
+
+     static async getAllApplications(){
+          try{
+               const res = await axios.get(
+                    `${api}api/application/getAllApplications`,
+                    {
+                         headers: {
+                              "Access-Control-Allow-Origin": "*",
+                              'Content-Security-Policy': ['default-src \'none\'', 'connect-src \'self\'']
+                         }
+                    }
+               )
+               return res
+          } catch(err){
+               return err
+          }
+     }
 }
