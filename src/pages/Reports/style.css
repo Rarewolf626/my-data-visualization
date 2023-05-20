@@ -1,0 +1,32 @@
+.container{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.label{
+    
+    color: #193c8d;
+    font-size: 1.5rem;
+    background-color: rgb(193, 193, 230);
+    margin-top: 12px;
+    padding: 5px;
+    border-radius: 10px;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50vw;
+}
+
+.text{
+    margin-left: 20px;
+}
+
+.title{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20vw;
+    font-weight: bold;
+    margin-top: 40px;
+}
