@@ -4,6 +4,7 @@ import Reports from './pages/Reports'
 function App() {
   return (
     <>
+    <HomePage />
     <Reports />
     </>
   )
