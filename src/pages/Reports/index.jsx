@@ -12,8 +12,6 @@ const Reports = () => {
     const [applications, setApplications] = useState([{"name":"test"}])
     async function fetchData(){
         await Api.getAllApplications().then((result) => {
-            console.log("REsullt>>")
-            console.log(result.data.sortedApplications)
             if(result.data.sortedApplications != undefined)
                 setApplications(result.data.sortedApplications)
         });

@@ -17,10 +17,6 @@ iconExtractor.emitter.on('icon', function(data){
         if(!context.includes(data.Context) && !images.includes(data.Base64ImageData)){
             images.push(data.Base64ImageData)
             context.push(data.Context)
-            console.log("Resultado >>>>>>>>>")
-            console.log(data.Context)
-            console.log(images.length)
-            console.log(" ")
         }
     }
   });
@@ -123,15 +119,8 @@ const getAllApplications = async (req, res) => {
       iconExtractor.getIcon(consumingDataApplications[i].name, consumingDataApplications[i].path);
       
       const ID = await IP;
-      
-      console.log("ID >>>>>>>>>")
-      console.log(ID)
-
       consumingDataApplications[i].image = ID.icon
     }
-
-    console.log(consumingDataApplications.length)
-    console.log(context.length)
 
     images = []
     context = []
