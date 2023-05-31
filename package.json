@@ -1,7 +1,7 @@
 {
   "name": "my-data",
   "private": true,
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "This is the project for the 2023 Inatel's Hackathon. My Data is intended to observe data usage",
   "main": "main.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "start": "sudo python3 src/connection/traffic_analyzer.py & electron-forge start",
     "package": "electron-forge package",
-    "start:windows": "pm2 kill && vite build && bash ./change-build-path.sh && electron-forge start",
+    "start:windows": "pm2 flush && pm2 kill && vite build && bash ./change-build-path.sh && electron-forge start",
     "make": "pm2 kill && vite build && bash ./change-build-path.sh && electron-forge make"
   },
   "author": "Julio Juriolli",
@@ -33,7 +33,7 @@
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^4.0.0",
-    "electron": "^24.3.0",
+    "electron": "^25.0.0",
     "eslint": "^8.38.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
