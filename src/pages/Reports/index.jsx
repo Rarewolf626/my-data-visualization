@@ -32,7 +32,6 @@ const Reports = () => {
 
     return(
         <div className='container'>
-            <Sidebar />
                             <div className='title'>
                                 Aplicações que mais consomem
                             </div>  

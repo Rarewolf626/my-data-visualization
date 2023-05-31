@@ -6,18 +6,22 @@ const bufferTreatment = require('../utils/bufferTreatment')
 var iconExtractor = require('icon-extractor');
 let gbImg;
 let images = []
+let context = []
 let readingImages = false;
 const filePath = path.join(__dirname, '..', '..', 'volatile', 'unpolishedData.json')
 
 iconExtractor.emitter.on('icon', function(data){
-    if(data.Context == 'images'){
-        if(!images.includes(data.Base64ImageData)){
-            images.push(data.Base64ImageData)
-        }
-        console.log(images.length)
-    }else{
+    if(data.Context == 'highest'){
         gbImg = data.Base64ImageData;
-
+    }else{
+        if(!context.includes(data.Context) && !images.includes(data.Base64ImageData)){
+            images.push(data.Base64ImageData)
+            context.push(data.Context)
+            console.log("Resultado >>>>>>>>>")
+            console.log(data.Context)
+            console.log(images.length)
+            console.log(" ")
+        }
     }
   });
 
@@ -44,7 +48,7 @@ const findHighestConsuming = async (req, res) => {
     let maxValue;
     if (consumingDataApplications[maxValueIndex] != undefined){
         maxValue = consumingDataApplications[maxValueIndex]
-        iconExtractor.getIcon(maxValue.name, maxValue.path);
+        iconExtractor.getIcon('highest', maxValue.path);
         res.status(200).json({name: maxValue.name, download: maxValue.download, img: gbImg}) 
     }else{
         res.status(200).json({name: 'Carregando', download: '...'}) 
@@ -100,30 +104,47 @@ const getAllApplications = async (req, res) => {
     let consumingDataApplications = Object.values(mostRecentJsonRegister)
     readingImages = true;
     for (let i = 0; i < consumingDataApplications.length; i++) {
-        console.log('line 94')
+
       const currentApplicationDownload = consumingDataApplications[i].download
       const applicationDownloadInBytes = Number(bufferTreatment.convertToBytes(currentApplicationDownload))
-      console.log(">>>>>> Line 97")
+
       consumingDataApplications[i].download = applicationDownloadInBytes;
-      console.log(consumingDataApplications[i].path)
-      iconExtractor.getIcon('images', consumingDataApplications[i].path);
-      consumingDataApplications[i].image = images[i]
+      consumingDataApplications[i].name = consumingDataApplications[i].name;
+      
+      const IP = new Promise((resolve) => {
+        iconExtractor.emitter.on('icon', function(data) {
+            if(data.Context === consumingDataApplications[i].name){
+                resolve({ name: consumingDataApplications[i].name, icon: data.Base64ImageData})
+            }
+        })
+      })
+      
+      
+      iconExtractor.getIcon(consumingDataApplications[i].name, consumingDataApplications[i].path);
+      
+      const ID = await IP;
+      
+      console.log("ID >>>>>>>>>")
+      console.log(ID)
+
+      consumingDataApplications[i].image = ID.icon
     }
-    readingImages = false;
-    console.log("Imges length >>>>>>")
-    console.log(images.length)
-    console.log(images)
-    const applicationImages = images;
+
+    console.log(consumingDataApplications.length)
+    console.log(context.length)
+
     images = []
+    context = []
+    readingImages = false;
+    const applicationImages = images;
     const sortedArray = consumingDataApplications.sort((a, b) => {
-        console.log(">>>> line 102")
             const downloadA = parseFloat(a.download.toString().match(/[0-9.]+/)[0]);
             const downloadB = parseFloat(b.download.toString().match(/[0-9.]+/)[0]);
             return downloadA - downloadB;
       });
-console.log('>>>> line 107')
     if (sortedArray[0] != undefined){
         //iconExtractor.getIcon(maxValue.name, maxValue.path);
+        
         res.status(200).json({sortedApplications: sortedArray}) 
     }else{
         res.status(200).json({name: 'Carregando', download: '...'}) 
@@ -140,3 +161,5 @@ module.exports = {
     getUploadSum,
     getAllApplications
 }
+
+

@@ -106,7 +106,7 @@ const HomePage = () => {
                 else if(index == 2){
                     return(
                         <div key={index} className="square">
-                            <FaDownload size={50}/>
+                            <FaDownload size={50} color='white'/>
                             <label className='label'>{square.label}</label>
                             <div className='application-label'>{square.applicationLabel}</div>
                             <label className='application-download'>{square.applicationDownload}</label>
@@ -115,7 +115,7 @@ const HomePage = () => {
                 else if(index == 1){
                     return(
                         <div key={index} className="square">
-                            <FaUpload size={50}/>
+                            <FaUpload size={50} color='white'/>
                             <label className='label'>{square.label}</label>
                             <div className='application-label'>{square.applicationLabel}</div>
                             <label className='application-download'>{square.applicationDownload}</label>
