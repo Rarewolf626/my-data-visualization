@@ -84,7 +84,6 @@ const HomePage = () => {
 
     return (
         <div className="homepage">
-            <Sidebar />
             <div className="top-grid">
                 {topSection.map((square, index) => {
                 if(index == 0){
@@ -108,7 +107,6 @@ const HomePage = () => {
                         <div key={index} className="square">
                             <FaDownload size={50} color='white'/>
                             <label className='label'>{square.label}</label>
-                            <div className='application-label'>{square.applicationLabel}</div>
                             <label className='application-download'>{square.applicationDownload}</label>
                         </div>)
                 }
@@ -117,8 +115,7 @@ const HomePage = () => {
                         <div key={index} className="square">
                             <FaUpload size={50} color='white'/>
                             <label className='label'>{square.label}</label>
-                            <div className='application-label'>{square.applicationLabel}</div>
-                            <label className='application-download'>{square.applicationDownload}</label>
+                           <label className='application-download'>{square.applicationDownload}</label>
                         </div>)
                 }})}
             </div>
